@@ -53,6 +53,7 @@ const MainContainer = () => {
     () => {},
     () => {}
   );
+  console.log(order)
 
   //FOR THE POST CONTACT REQUEST
   const postPostContactFunction = (error) => {
@@ -177,15 +178,14 @@ const MainContainer = () => {
         );
         await postContact();
         if (errorPostContactMessage === "") {
-          postData();
+          await postData();
+          setOrder({})
         }
       })();
     }
     setModalIsVisible(false);
     setAllNecessaryInformationIsAvailable(true);
-    Object.keys(order).forEach((el) => {
-      order[el].quantity = 0;
-    });
+    
   };
 
   const onLoginSignUpClicked = () => {

@@ -17,12 +17,14 @@ const SavedOrders = (props) => {
   
 
   const transformData = (dataObj) => {
+    console.log(dataObj)
     let updatedOrders = [];
     Object.keys(dataObj.data).forEach((el) => {
       updatedOrders.push(dataObj.data[el]);
       setOrders(updatedOrders);
     });
   };
+
   const {
     loading,
     error,
