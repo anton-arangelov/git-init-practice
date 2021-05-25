@@ -4,6 +4,14 @@ import axios from "axios";
 import Spinner from "../../ui/Spinner.js";
 import classes from "./SavedOrders.module.css";
 
+//FOR EXCEL ---------------------------
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+//------------------------------------
+
 const SavedOrders = (props) => {
   const interval = useRef(undefined);
 
@@ -14,10 +22,20 @@ const SavedOrders = (props) => {
   const [currentTime, setCurrentTime] = useState(new Date().getTime());
 
   let status = "";
-  
+//FOR EXCEL----------
+  const [showExcel, setShowExcel] = useState(false);
+  const excelArray = []
+  orders.forEach(data=>{
+    Object.keys(data.order).forEach(el=>{
+      let objectCopy = {...data.order[el]}
+      objectCopy.total = data.order[el].price * data.order[el].quantity
+      excelArray.push(objectCopy) 
+    })
+  })
+  //-------------------------
 
   const transformData = (dataObj) => {
-    console.log(dataObj)
+    console.log(dataObj);
     let updatedOrders = [];
     Object.keys(dataObj.data).forEach((el) => {
       updatedOrders.push(dataObj.data[el]);
@@ -49,10 +67,10 @@ const SavedOrders = (props) => {
 
   const start = () => {
     if (!interval.current)
-    interval.current = setInterval(() => {
-      setShouldCheckStatus(false);
-      setCurrentTime(new Date().getTime());
-    }, 30000);
+      interval.current = setInterval(() => {
+        setShouldCheckStatus(false);
+        setCurrentTime(new Date().getTime());
+      }, 30000);
   };
 
   useEffect(() => {
@@ -66,82 +84,113 @@ const SavedOrders = (props) => {
       fetchData();
     }
   }, []);
-  
+
   return (
     <Fragment>
-      {!user ? <p className = {classes.Paragraph}>You need to login or create account</p> : <Fragment>
-      {error &&
-      error.toString() ===
-        "TypeError: Cannot convert undefined or null to object" ? (
-        <p className = {classes.Paragraph}>There are no orders</p>
+      {!user ? (
+        <p className={classes.Paragraph}>You need to login or create account</p>
       ) : (
-        <div>
-          {error ? (
-            <div>{error.response.data}</div>
+        <Fragment>
+          {error &&
+          error.toString() ===
+            "TypeError: Cannot convert undefined or null to object" ? (
+            <p className={classes.Paragraph}>There are no orders</p>
           ) : (
-            <Fragment>
-              {loading ? (
-                <Spinner />
+            <div>
+              {error ? (
+                <div>{error.response.data}</div>
               ) : (
-                <div>
-                  <p className = {classes.Paragraph}>
-                    Each order takes 2 minutes to be ready. If your order is
-                    older than 2 minutes it will be with status "ready".
-                    Otherwise it will be with status "pending"
-                  </p>
-                  {orders.map((data) => {
-                    if (
-                      currentTime - new Date(data.date).getTime() >
-                      60000 * 2
-                    ) {
-                      status = "ready";
-                    } else {
-                      status = "pending";
-                      if (!shouldCheckStatus) {
-                        setShouldCheckStatus(true);
-                      }
-                    }
-                    let totalCost = 0;
-                    return (
-                      <div
-                        className={classes.SavedOrder}
-                        key={new Date(data.date).toLocaleString()}
+                <Fragment>
+                  {loading ? (
+                    <Spinner />
+                  ) : (
+                    <div>
+                      <p className={classes.Paragraph}>
+                        Each order takes 2 minutes to be ready. If your order is
+                        older than 2 minutes it will be with status "ready".
+                        Otherwise it will be with status "pending"
+                      </p>
+                      {/* FOR EXCEL */}
+                      <button
+                        className={classes.Excel}
+                        onClick={() => setShowExcel((prev) => !prev)}
                       >
-                        <div className={classes.FirstColumn}>
-                          {" "}
-                          On {new Date(data.date).toLocaleString()} you ordered:
-                          {Object.keys(data.order).map((el) => {
-                            totalCost = totalCost + data.order[el].quantity * data.order[el].price
-                              return (
-                                <div key={data.order[el].name}>
-                                  {data.order[el].name} x {` `}
-                                  {data.order[el].quantity}
-                                  {` times, which cost ${
-                                    data.order[el].quantity *
-                                    data.order[el].price
-                                  } levs`}
-                                </div>
-                              );
-                            })}
-                            <div><b>Your order totally cost {totalCost} levs</b></div>
-                        </div>
-                        <div
-                          className={`${classes.SecondColumn} ${
-                            status === "pending" && classes.Pending
-                          }`}
-                        >
-                          {status}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                        Export in excel
+                      </button>
+                      {showExcel && (
+                        <ExcelFile hideElement={true}>
+                          <ExcelSheet data={excelArray} name="Orders">
+                            <ExcelColumn label="Name" value='name' />
+                            <ExcelColumn label="Price" value="price" />
+                            <ExcelColumn label="Quantity" value="quantity" />
+                            <ExcelColumn
+                              label="Order Cost"
+                              value= 'total'
+                            />
+                          </ExcelSheet>
+                        </ExcelFile>
+                      )}
+                      {/* END OF EXCEL SECTION */}
+                      {orders.map((data) => {
+                        if (
+                          currentTime - new Date(data.date).getTime() >
+                          60000 * 2
+                        ) {
+                          status = "ready";
+                        } else {
+                          status = "pending";
+                          if (!shouldCheckStatus) {
+                            setShouldCheckStatus(true);
+                          }
+                        }
+                        let totalCost = 0;
+                        return (
+                          <div
+                            className={classes.SavedOrder}
+                            key={new Date(data.date).toLocaleString()}
+                          >
+                            <div className={classes.FirstColumn}>
+                              {" "}
+                              On {new Date(data.date).toLocaleString()} you
+                              ordered:
+                              {Object.keys(data.order).map((el) => {
+                                totalCost =
+                                  totalCost +
+                                  data.order[el].quantity *
+                                    data.order[el].price;
+                                return (
+                                  <div key={data.order[el].name}>
+                                    {data.order[el].name} x {` `}
+                                    {data.order[el].quantity}
+                                    {` times, which cost ${
+                                      data.order[el].quantity *
+                                      data.order[el].price
+                                    } levs`}
+                                  </div>
+                                );
+                              })}
+                              <div>
+                                <b>Your order totally cost {totalCost} levs</b>
+                              </div>
+                            </div>
+                            <div
+                              className={`${classes.SecondColumn} ${
+                                status === "pending" && classes.Pending
+                              }`}
+                            >
+                              {status}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </Fragment>
               )}
-            </Fragment>
+            </div>
           )}
-        </div>
+        </Fragment>
       )}
-      </Fragment>}
     </Fragment>
   );
 };

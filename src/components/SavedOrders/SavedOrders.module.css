@@ -28,6 +28,23 @@
   text-align: center;
 }
 
+.Excel{
+  margin: 3px 45%;
+  background-color: rgb(104, 141, 104);
+  height: 2.1em;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.Excel:hover{
+  background-color: teal;
+  color: white;
+}
+
+.Excel:focus{
+  outline: none;
+}
+
 @keyframes blinkInfo {
   0% {
     color: blue
