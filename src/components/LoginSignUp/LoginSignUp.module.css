@@ -1,0 +1,91 @@
+.Auth {
+    margin: 3rem auto;
+    width: 95%;
+    max-width: 25rem;
+    border-radius: 6px;
+    background-color: rgb(161, 106, 4);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    text-align: center;
+    color: white;
+  }
+  
+  .Auth h1 {
+    text-align: center;
+    color: white;
+  }
+  
+  .Control {
+    margin-bottom: 0.5rem;
+  }
+  
+  .Control label {
+    display: block;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .Control input {
+    font: inherit;
+    background-color: white;
+    color: rgb(92, 60, 2);
+    border-radius: 4px;
+    border: 1px solid white;
+    width: 100%;
+    text-align: left;
+    padding: 0.25rem;
+  }
+  
+  .Actions {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .Actions button {
+    cursor: pointer;
+    font: inherit;
+    color: white;
+    background-color: rgb(92, 60, 2);
+    border: 1px solid rgb(92, 60, 2);
+    border-radius: 4px;
+    padding: 0.5rem 2.5rem;
+  }
+  
+  .Actions button:hover {
+    background-color: orange;
+    border-color: orange;
+  }
+
+  .Actions button:focus{
+    outline: none;
+  }
+  
+  .Actions .Toggle {
+    margin-top: 1rem;
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 0.15rem 1.5rem;
+  }
+  
+  .Actions .Toggle:hover {
+    background-color: transparent;
+    color: orange;
+  }
+
+  .ErrorMessage{
+    color: black;
+    animation: display 0.3s ease-in-out forwards;
+  }
+
+  @keyframes display{
+    0%{
+      transform: scale(0)
+    }
+    100%{
+      transform: scale(1)
+    }
+  }

@@ -1,0 +1,26 @@
+.OrderButtonDiv {
+    width: 100%;
+    align-items: center;
+    justify-items: center;
+    border: none;
+  }
+  
+  .OrderButton {
+    width: 30%;
+    margin: 2% 35%;
+    background-color: transparent;
+    border: none;
+    color: green;
+    cursor: pointer;
+    font-size: 26px;
+  }
+  
+  .OrderButton:hover{
+    border-radius: 10px;
+    border: 0.5px solid green;
+  }
+
+  .OrderButton:focus{
+      outline: none
+  }
+  

@@ -1,0 +1,56 @@
+.Header {
+  width: 100%;
+  background-color: rgb(207, 164, 83);
+  height: 5em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  margin: auto;
+}
+
+.Link {
+  text-decoration: none;
+  padding: 0 10px;
+  margin: auto 10px;
+  color: black;
+}
+
+.Link:hover {
+  color: rgb(4, 4, 97);
+  border-bottom: 0.5px solid rgb(4, 4, 97);
+}
+
+.LinkContainer {
+  /* width: 25%; */
+  margin-right: 2em;
+}
+
+.Hello {
+  width: 16rem;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.Hello button {
+  margin-left: 15px;
+  font: inherit;
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.Hello button:hover {
+  background-color: rgb(92, 60, 2);
+  border-color: rgb(92, 60, 2);
+}
+
+.Hellow button:focus {
+  outline: none;
+}

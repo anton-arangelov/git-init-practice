@@ -1,0 +1,39 @@
+.SavedOrder {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: rgb(250, 220, 157);
+  margin: 1px 5%;
+
+}
+
+.FirstColumn {
+  width: 85%;
+  color: rgb(25, 25, 87);
+  padding: 5px;
+}
+
+.SecondColumn {
+  width: 15%;
+  margin: auto;
+}
+
+.Pending {
+  color: blue;
+  animation: blinkInfo 0.8s infinite ease-in-out forwards;
+}
+
+.Paragraph{
+  text-align: center;
+}
+
+@keyframes blinkInfo {
+  0% {
+    color: blue
+  }
+
+  100% {
+    color: green;
+  }
+}
