@@ -53,7 +53,6 @@ const MainContainer = () => {
     () => {},
     () => {}
   );
-  console.log(order)
 
   //FOR THE POST CONTACT REQUEST
   const postPostContactFunction = (error) => {
